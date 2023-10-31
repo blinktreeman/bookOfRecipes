@@ -101,3 +101,31 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 ]
 ```
+### Модель пользователя
+Для модели пользователя можно использовать встроенного в Django User`a, 
+но, как рекомендует Django doc:
+
+> [Using a custom user model when starting a project](https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project)  
+
+В `accounts/models.py` зададим пользовательскую модель:
+```python
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    pass
+```
+В settings.py переопределяем модель по умолчанию:
+```python
+AUTH_USER_MODEL = 'accounts.User'
+```
+Регистрируем модель пользователя в админке Django. В accounts/admin.py:
+```python
+from django.contrib import admin
+from .models import User
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    pass
+```
