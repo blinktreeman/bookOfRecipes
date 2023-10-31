@@ -83,7 +83,7 @@ Switched to a new branch 'dev_recipes'
 ```
 И добавим приложения в файл конфигурации указав ссылку на классы конфигурации приложений  
 [https://docs.djangoproject.com/en/4.2/ref/applications/#configuring-applications](https://docs.djangoproject.com/en/4.2/ref/applications/#configuring-applications)  
-settings.py:
+`settings.py`:
 ```python
 # Application definition
 
@@ -115,11 +115,11 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     pass
 ```
-В settings.py переопределяем модель по умолчанию:
+В `settings.py` переопределяем модель по умолчанию:
 ```python
 AUTH_USER_MODEL = 'accounts.User'
 ```
-Регистрируем модель пользователя в админке Django. В accounts/admin.py:
+Регистрируем модель пользователя в админке Django. В `accounts/admin.py`:
 ```python
 from django.contrib import admin
 from .models import User
@@ -129,3 +129,4 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     pass
 ```
+### Модели recipes
