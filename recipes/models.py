@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from recipes.managers import PublishedManager
 
@@ -7,14 +8,14 @@ CustomUser = get_user_model()
 
 
 class Ingredient(models.Model):
-    """Ингридиент"""
+    """Ингредиент"""
     name = models.CharField(max_length=250, verbose_name='Наименование', null=False, blank=False)
     description = models.CharField(max_length=500, verbose_name='Описание', null=True, blank=True)
     unit = models.CharField(max_length=45, verbose_name='Единица измерения')
 
     class Meta:
-        verbose_name = 'Ингридиент'
-        verbose_name_plural = 'Ингридиенты'
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
 
     def __str__(self):
         return self.name
@@ -34,6 +35,11 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     """Рецепт"""
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+
     author = models.ForeignKey(CustomUser,
                                verbose_name='Автор',
                                related_name='recipes',
@@ -54,7 +60,13 @@ class Recipe(models.Model):
                                       auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата последнего обновления',
                                       auto_now=True)
-    published = models.BooleanField(verbose_name='Опубликован', default=True)
+    status = models.CharField(verbose_name='Статус рецепта',
+                              max_length=10,
+                              choices=STATUS_CHOICES,
+                              default='draft')
+    slug = models.SlugField(max_length=250,
+                            verbose_name='slug',
+                            unique_for_date='created_at')
 
     # Default manager
     objects = models.Manager()
@@ -62,9 +74,17 @@ class Recipe(models.Model):
     published_recipes = PublishedManager()
 
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('-created_at',)
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+
+    def get_absolute_url(self):
+        return reverse('recipe_detail',
+                       args=[self.created_at.strftime('%Y'),
+                             self.created_at.strftime('%m'),
+                             self.created_at.strftime('%d'),
+                             self.slug,
+                             ])
 
     def __str__(self):
         return f'{self.title}: {self.cooking_steps[:40]}'
