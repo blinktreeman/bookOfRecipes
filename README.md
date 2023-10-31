@@ -39,3 +39,65 @@
 пятью рецептами
 
 ## Реализация
+### Создаем проект, настраиваем репозиторий
+```shell
+Windows PowerShell
+(C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+Установите последнюю версию PowerShell для новых функций и улучшения! https://aka.ms/PSWindows
+
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> git remote add origin git@github.com:blinktreeman/bookOfRecipes.git
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> git push -u origin master
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (16/16), 4.11 KiB | 2.06 MiB/s, done.
+Total 16 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To github.com:blinktreeman/bookOfRecipes.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> git pull
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 2.14 KiB | 274.00 KiB/s, done.
+From github.com:blinktreeman/bookOfRecipes
+   2927ab0..d0e866e  master     -> origin/master
+Updating 2927ab0..d0e866e
+Fast-forward
+ .gitignore | 160 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 160 insertions(+)
+ create mode 100644 .gitignore
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> git checkout -b dev_recipes
+Switched to a new branch 'dev_recipes'
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes>
+```
+### Создаем приложения "Рецепты", "Пользователи"
+```shell
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> python manage.py startapp recipes
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> python manage.py startapp accounts
+(venv) PS C:\Users\eugen\PycharmProjects\bookOfRecipes> 
+```
+И добавим приложения в файл конфигурации указав ссылку на классы конфигурации приложений  
+[https://docs.djangoproject.com/en/4.2/ref/applications/#configuring-applications](https://docs.djangoproject.com/en/4.2/ref/applications/#configuring-applications)  
+settings.py:
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # recipes application
+    'recipes.apps.RecipesConfig',
+    # accounts application
+    'accounts.apps.AccountsConfig',
+]
+```
