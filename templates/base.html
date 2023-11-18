@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between
+    py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <svg class="bi bi-pencil-square" width="40" height="32" role="img"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1
+                    .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0
+                    .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5
+                    0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5
+                    0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                </svg>
+            </a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            {% if request.user.is_authenticated %}
+                Привет {{ request.user.first_name|default:request.user.username }},
+                <a href="{% url "logout" %}">Logout</a>
+            {% else %}
+                <a href="{% url "login" %}">
+                    <button type="button" class="btn btn-outline-primary me-2">Login</button>
+                </a>
+            {% endif %}
+        </div>
+    </header>
+</div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="container">
+    {% block content %}
+    {% endblock content %}
+</div>
+</body>
+</html>

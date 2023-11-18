@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>Recipes</h1>
+    {% for recipe in recipes %}
+        <h2>
+            {{ recipe.title }}
+        </h2>
+        <p>
+            Published {{ recipe.created_at }} by {{ recipe.author }}
+        </p>
+        {{ recipe.cooking_steps|truncatewords:30|linebreaks }}
+        <a href="{{ recipe.get_absolute_url }}">More...</a>
+    {% endfor %}
+{% endblock content %}
