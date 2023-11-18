@@ -22,9 +22,9 @@ def register(request):
                           {'new_user': new_user})
     else:
         user_form = SignupForm()
-        return render(request,
-                      'registration/register.html',
-                      {'user_form': user_form})
+    return render(request,
+                  'registration/register.html',
+                  {'user_form': user_form})
 
 
 @login_required
@@ -32,25 +32,13 @@ def profile(request):
     return render(request, 'registration/profile.html')
 
 
-# @login_required
-# def edit(request):
-#     if request.method == 'POST':
-#         profile_form = ProfileEditForm(instance=request.user, data=request.POST, files=request.FILES)
-#         if profile_form.is_valid():
-#             profile_form.save()
-#     else:
-#         profile_form = ProfileEditForm(instance=request.user)
-#         return render(request,
-#                       'registration/edit_profile.html',
-#                       {'profile_form': profile_form})
-
-
 class EditUserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = get_user_model()
     template_name = 'registration/edit_profile.html'
     form_class = ProfileEditForm
     success_url = reverse_lazy('profile')
-    success_message = 'User data has been changed'
+    # success_message = 'User data has been changed'
+    # error_message = 'Error updating your profile'
     user_id = None
 
     def setup(self, request, *args, **kwargs):

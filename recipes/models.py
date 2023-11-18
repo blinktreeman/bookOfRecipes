@@ -79,7 +79,7 @@ class Recipe(models.Model):
         verbose_name_plural = 'Рецепты'
 
     def get_absolute_url(self):
-        return reverse('recipe_detail',
+        return reverse('recipe_details',
                        args=[self.created_at.strftime('%Y'),
                              self.created_at.strftime('%m'),
                              self.created_at.strftime('%d'),
@@ -92,6 +92,6 @@ class Recipe(models.Model):
 
 class RecipeIngredients(models.Model):
     """ManyToMany с количеством каждого ингредиента по рецепту"""
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='recipe_ingredients')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.FloatField(verbose_name='Количество')

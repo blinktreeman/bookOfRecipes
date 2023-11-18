@@ -25,11 +25,11 @@ def recipe_details(request, year, month, day, recipe):
     recipe = get_object_or_404(Recipe,
                                slug=recipe,
                                status='published',
-                               published__year=year,
-                               published__month=month,
-                               published__day=day)
-    ingredients = recipe.ingredients.all()
+                               created_at__year=year,
+                               created_at__month=month,
+                               created_at__day=day)
+    #ingredients = recipe.ingredients.all()
     return render(request,
                   'recipe-details.html',
-                  {'recipe': recipe,
-                   'ingredients': ingredients})
+                  {'recipe': recipe,})
+                   #'ingredients': ingredients})

@@ -27,7 +27,7 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -42,6 +42,16 @@
         </div>
     </header>
 </div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div class="container">
     {% block content %}
     {% endblock content %}
